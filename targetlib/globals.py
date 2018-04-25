@@ -1,4 +1,5 @@
-
+# Copyright (C) 2018, John Pormann, Duke University Libraries
+#
 # global vars
 NUM_EPOCHS = 1000
 MYDATA_BATCH_SIZE = 100

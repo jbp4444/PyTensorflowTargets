@@ -1,3 +1,4 @@
+# Copyright (C) 2018, John Pormann, Duke University Libraries
 
 import numpy as np
 import argparse

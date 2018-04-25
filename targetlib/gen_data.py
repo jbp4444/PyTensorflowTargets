@@ -1,4 +1,4 @@
-
+# Copyright (C) 2018, John Pormann, Duke University Libraries
 #
 # The "images" are 28x28 grids of floats, 0.0 to 1.0 (i.e. black and white images, not color)
 # Noise is added to the overall image using random.uniform()

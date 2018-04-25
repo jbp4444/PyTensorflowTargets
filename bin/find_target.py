@@ -1,4 +1,4 @@
-
+# Copyright (C) 2018, John Pormann, Duke University Libraries
 
 import argparse
 import tensorflow as tf
