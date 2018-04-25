@@ -22,4 +22,4 @@ or 1000's of targets without having to pre-generate them.
 * bin/print_image.py - shows a text-pixel image of a target
   * see TARGET_TYPE's above
 
-* results on locating the coordinates of the box are very good (close to 95%++); identifying the rotation takes longer, but can achieve good accuracy too (80% or more)
+* results on locating the coordinates of the box are very good (99%++); identifying the rotation takes longer to train, but can also achieve very good accuracy too (85%+)
