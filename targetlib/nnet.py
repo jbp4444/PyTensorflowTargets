@@ -52,27 +52,23 @@ def create_deepnn( sess ):
 	# Reshape to use within a convolutional neural net.
 	# Last dimension is for "features" - there is only one here, since images are
 	# grayscale -- it would be 3 for an RGB image, 4 for RGBA, etc.
-	with tf.name_scope('reshape'):
+	with tf.name_scope('xycommon'):
 		x_image = tf.reshape( img, [-1, 28, 28, 1], name='x_image' )
 
-	# First convolutional layer - maps one grayscale image to 32 feature maps.
-	with tf.name_scope('conv1'):
+		# First convolutional layer - maps one grayscale image to 32 feature maps.
 		W_conv1 = weight_variable([5, 5, 1, 32])
 		b_conv1 = bias_variable([32])
 		h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 
-	# Pooling layer - downsamples by 2X.
-	with tf.name_scope('pool1'):
+		# Pooling layer - downsamples by 2X.
 		h_pool1 = max_pool_2x2(h_conv1)
 
-	# Second convolutional layer -- maps 32 feature maps to 64.
-	with tf.name_scope('conv2'):
+		# Second convolutional layer -- maps 32 feature maps to 64.
 		W_conv2 = weight_variable([5, 5, 32, 64])
 		b_conv2 = bias_variable([64])
 		h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 
-	# Second pooling layer.
-	with tf.name_scope('pool2'):
+		# Second pooling layer.
 		h_pool2 = max_pool_2x2(h_conv2)
 		h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
 
@@ -146,13 +142,16 @@ def create_deepnn( sess ):
 				labels = yc, logits=yc_conv )
 		rc_loss = tf.nn.softmax_cross_entropy_with_logits(
 				labels = rc, logits=rc_conv )
+		sumXY_loss = xc_loss + yc_loss
 		#joint_loss = xc_loss + yc_loss + 40*rc_loss
-		joint_loss = xc_loss + yc_loss + 100*rc_loss
+		joint_loss = sumXY_loss + 100*rc_loss
 		#joint_loss = rc_loss
 
 	with tf.name_scope('adam_optimizer'):
 		#train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 		#train_step = tf.train.AdamOptimizer(1e-4).minimize(joint_loss)
+		train_stepXY = tf.train.AdamOptimizer(1e-5).minimize(sumXY_loss)
+		train_stepR = tf.train.AdamOptimizer(1e-5).minimize(rc_loss)
 		train_step = tf.train.AdamOptimizer(1e-5).minimize(joint_loss)
 
 	sess.run( tf.global_variables_initializer() )
@@ -180,6 +179,8 @@ def create_deepnn( sess ):
 	tf.add_to_collection( 'yc_conv', yc_conv )
 	tf.add_to_collection( 'rc_conv', rc_conv )
 	tf.add_to_collection( 'train_step', train_step )
+	tf.add_to_collection( 'train_stepXY', train_stepXY )
+	tf.add_to_collection( 'train_stepR', train_stepR )
 	tf.add_to_collection( 'accuracy', accuracy )
 
 	#original: return y_conv, keep_prob

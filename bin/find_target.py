@@ -19,6 +19,8 @@ if( __name__ == '__main__' ):
 			help='noise-level for val=0 (0.0 up to x)' )
 	parser.add_argument( '-N', nargs='?', type=float, default=0.9,
 			help='noise-level for val=1 (x up to 1.0)' )
+	parser.add_argument( '-R', nargs='?', type=int, default=-1,
+			help='ramp-up noise-level over N epochs (-1=fixed noise-levels)' )
 	parser.add_argument( '-v', action='count', help='verbose output' )
 	parser.add_argument( '-V', action='count', help='really verbose output' )
 
@@ -28,8 +30,9 @@ if( __name__ == '__main__' ):
 	targetlib.globals.KEEP_PROB   = params['k']
 	targetlib.globals.NUM_EPOCHS  = params['e']
 	targetlib.globals.MYDATA_BATCH_SIZE = params['b']
-	targetlib.globals.NOISE_LVL0  = params['n']
-	targetlib.globals.NOISE_LVL1  = params['N']
+	targetlib.globals.INIT_NOISE_LVL0  = params['n']
+	targetlib.globals.INIT_NOISE_LVL1  = params['N']
+	targetlib.globals.NOISE_LVL_RAMP   = params['R']
 	targetlib.globals.TARGET_TYPE = params['T']
 
 	#targetlib.globals.VERBOSE = 0
@@ -38,4 +41,4 @@ if( __name__ == '__main__' ):
 	if( params['V'] != None ):
 		targetlib.globals.VERBOSE += 10*params['V']
 
-	tf.app.run( main=targetlib.main.main )
+	tf.app.run( main=targetlib.main.main2 )

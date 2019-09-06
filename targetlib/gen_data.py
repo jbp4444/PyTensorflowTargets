@@ -198,14 +198,14 @@ def draw_one_image( img, i, xval,yval, rot, noise_lvl1 ):
 	img[ i, (yval+ay)*28 + xval+ax ] = random.uniform(noise_lvl1,1)
 	img[ i, (yval+by)*28 + xval+bx ] = random.uniform(noise_lvl1,1)
 
-
 def my_test_data():
 	print( 'my_test_data called' )
-
+	noise_lvl0 = targetlib.globals.NOISE_LVL0
+	noise_lvl1 = targetlib.globals.NOISE_LVL1
 	batch_sz = len(test_xylist) * 4
 
-	#img = [ 0 for i in range(28*28) ]
-	img = np.zeros( (batch_sz, 28*28), np.float32 )
+	img = noise_lvl0*np.random.random( (batch_sz,28*28) )
+	# for clean/no-noise data:  img = np.zeros( (batch_sz, 28*28), np.float32 )
 	xout = np.zeros( (batch_sz,28), np.float32 )
 	yout = np.zeros( (batch_sz,28), np.float32 )
 	rout = np.zeros( (batch_sz,4), np.float32 )
@@ -242,6 +242,19 @@ def my_test_data():
 			rout[idx,j]    = 1
 
 			idx = idx + 1
+
+	return ( img, xout,yout, rout )
+
+def my_test_data_noise():
+	print( 'my_test_data_noise called' )
+	noise_lvl0 = targetlib.globals.NOISE_LVL0
+	noise_lvl1 = targetlib.globals.NOISE_LVL1
+	batch_sz = len(test_xylist) * 4
+
+	img = np.random.random( (batch_sz,28*28) )
+	xout = np.random.random( (batch_sz,28) )
+	yout = np.random.random( (batch_sz,28) )
+	rout = np.random.random( (batch_sz,4) )
 
 	return ( img, xout,yout, rout )
 

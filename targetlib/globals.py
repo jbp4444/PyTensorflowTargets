@@ -14,4 +14,8 @@ TYPE3_SEP = 8
 NOISE_LVL0 = 0.25   # image is initialized to "black" == 0.0 up to noise_lvl0
 NOISE_LVL1 = 0.85   # "white" pixels == noise_lvl1 up to 1.0
 
+INIT_NOISE_LVL0 = 0.25   # image is initialized to "black" == 0.0 up to noise_lvl0
+INIT_NOISE_LVL1 = 0.85   # "white" pixels == noise_lvl1 up to 1.0
+NOISE_LVL_RAMP = 0       # num epochs to ramp-up noise levels (0==fixed noise lvls)
+
 VERBOSE = 0
